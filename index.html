@@ -16,31 +16,34 @@
   </style>
 </head>
 <body>
-  <h1>Calculadora de Rentabilidad Inmobiliaria</h1>
+  <h1>Calculadora de rentabilidad alquiler larga duración</h1>
   <div class="card">
     <h4>Compra e inversión inicial</h4>
     <label>Precio de compra</label>
     <input type="number" id="precioCompra" placeholder="Ej: 75000€">
 
-    <label>Coste de reforma</label>
+    <label>Reforma</label>
     <input type="number" id="costeReforma" placeholder="Ej: 2000€">
 
-    <label>Coste de mobiliario y equipamiento</label>
+    <label>Mobiliario y equipamiento</label>
     <input type="number" id="costeMobiliarioEquipamiento" placeholder="Ej: 4000€">
+
+    <label>Servicio agencia inmobiliaria</label>
+    <input type="number" id="costeInmobiliaria" placeholder="Ej: 3630€">
 
     <br><br>
     <hr>
     <h4>Gastos recurrentes</h4>
     <label>IBI</label>
-    <input type="number" id="gastoIBI" placeholder="Ej: 350€ anuales">
+    <input type="number" id="gastosIBI" placeholder="Ej: 350€ anuales">
 
     <label>Comunidad</label>
     <input type="number" id="gastosComunidad" placeholder="Ej: 50€ mensuales">
    
     <br><br>
     <hr>
-    <h4>Compra e inversión inicial</h4>
-    <label>% de financiación sobre valor de compra</label>
+    <h4>Datos de hipoteca</h4>
+    <label>% de financiación sobr el valor de compra</label>
     <input type="number" id="porcentajeHipoteca" placeholder="Ej: 80%">
 
     <label>Años de hipoteca</label>
@@ -55,7 +58,6 @@
     <label>Ingresos mensuales por alquiler </label>
     <input type="number" id="ingresosAlquiler" placeholder="Ej: 800€">
 
-
     <button onclick="calcular()">Calcular rentabilidad</button>
 
     <div id="resultado" class="resultado" style="display:none;"></div>
@@ -63,13 +65,24 @@
 
   <script>
     function calcular() {
-      const compra = parseFloat(document.getElementById("compra").value) || 0;
-      const reforma = parseFloat(document.getElementById("reforma").value) || 0;
-      const ingresos = parseFloat(document.getElementById("ingresoAlquiler").value) || 0;
-      const gastos = parseFloat(document.getElementById("gastos").value) || 0;
-      const anuales = parseFloat(document.getElementById("anuales").value) || 0;
+      const precioCompra = parseFloat(document.getElementById("precioCompra").value) || 0;
+      const costeReforma = parseFloat(document.getElementById("costeReforma").value) || 0;
+      const costeMobiliarioEquipamiento = parseFloat(document.getElementById("costeMobiliarioEquipamiento").value) || 0;
+      const costeInmobiliaria = parseFloat(document.getElementById("costeInmobiliaria").value) || 0;
+      const gastosIBI = parseFloat(document.getElementById("gastosIBI").value) || 0;
+      const gastosComunidad = parseFloat(document.getElementById("gastosComunidad").value) || 0;
+      const porcentajeHipoteca = parseFloat(document.getElementById("porcentajeHipoteca").value) || 0;
+      const anualidadesHipoteca = parseFloat(document.getElementById("anualidadesHipoteca").value) || 0;
+      const tipoHipoteca = parseFloat(document.getElementById("tipoHipoteca").value) || 0;
 
-      const inversionTotal = compra + reforma;
+      // continuar aquí
+
+
+
+      const ingresos = parseFloat(document.getElementById("ingresoAlquiler").value) || 0;
+
+
+      const inversionTotal = precioCompra + costeReforma + costeMobiliarioEquipamiento;
       const ingresosNetosAnuales = (ingresos - gastos) * 12 - anuales;
       const rentabilidadBruta = (ingresos * 12 / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
@@ -86,10 +99,11 @@
 </body>
 </html>
 
-<!--
-AÑADIR 
+<!-- AÑADIR 
+✓ compra 
 ✓ reforma 
 ✓ mobiliario 
+✓ comisión agencia inmobiliaria 
 ✓ IBI, indicar en el placeholder que es anual
 ✓ comunidad, el importe será mensual, indicar en el placeholder
 OPCIONAL Añadir input seguro de vida, indicar en el placeholder que es anual
@@ -105,18 +119,13 @@ CALCULAR
 - coste fijo tasación 300€ + IVA = 363€ 
 - seguro de impago = mensualidad/2
 - seguro de hogar = 300€
-- añadir un escrito explicando los supuestos y costes hardcodeados
--->
+- añadir un escrito explicando los supuestos y costes hardcodeados -->
 
-<!-- 
-RESULTADOS
+<!-- RESULTADOS
 - rentabilidad bruta
 - rentabilidad neta
 - cuota hipotecaria
 - cash-flow mensual
 - % hipoteca/alquiler
 - cash on cash
-- ROCE
--->
-
-
+- ROCE -->
