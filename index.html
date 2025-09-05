@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Rentabilidad Inmobiliaria</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f5f5f5; }
+    h1 { text-align: center; }
+    .card { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; }
+    button { margin-top: 20px; padding: 10px; width: 100%; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .resultado { margin-top: 20px; padding: 15px; background: #eafaf1; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Rentabilidad Inmobiliaria</h1>
+  <div class="card">
+    <label>Precio de compra (€):</label>
+    <input type="number" id="compra" placeholder="Ej: 120000">
+
+    <label>Coste de reforma (€):</label>
+    <input type="number" id="reforma" placeholder="Ej: 20000">
+
+    <label>Ingresos mensuales por alquiler (€):</label>
+    <input type="number" id="ingresos" placeholder="Ej: 800">
+
+    <label>Gastos mensuales (€):</label>
+    <input type="number" id="gastos" placeholder="Ej: 150">
+
+    <label>Gastos anuales (IBI, seguro, etc.) (€):</label>
+    <input type="number" id="anuales" placeholder="Ej: 1200">
+
+    <button onclick="calcular()">Calcular rentabilidad</button>
+
+    <div id="resultado" class="resultado" style="display:none;"></div>
+  </div>
+
+  <script>
+    function calcular() {
+      const compra = parseFloat(document.getElementById("compra").value) || 0;
+      const reforma = parseFloat(document.getElementById("reforma").value) || 0;
+      const ingresos = parseFloat(document.getElementById("ingresos").value) || 0;
+      const gastos = parseFloat(document.getElementById("gastos").value) || 0;
+      const anuales = parseFloat(document.getElementById("anuales").value) || 0;
+
+      const inversionTotal = compra + reforma;
+      const ingresosNetosAnuales = (ingresos - gastos) * 12 - anuales;
+      const rentabilidadBruta = (ingresos * 12 / inversionTotal) * 100;
+      const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
+
+      document.getElementById("resultado").style.display = "block";
+      document.getElementById("resultado").innerHTML = `
+        <b>Inversión total:</b> €${inversionTotal.toLocaleString()} <br>
+        <b>Ingresos netos anuales:</b> €${ingresosNetosAnuales.toLocaleString()} <br>
+        <b>Rentabilidad bruta:</b> ${rentabilidadBruta.toFixed(2)}% <br>
+        <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}%
+      `;
+    }
+  </script>
+</body>
+</html>
+
