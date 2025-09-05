@@ -18,20 +18,43 @@
 <body>
   <h1>Calculadora de Rentabilidad Inmobiliaria</h1>
   <div class="card">
-    <label>Precio de compra (€):</label>
-    <input type="number" id="compra" placeholder="Ej: 120000">
+    <h4>Compra e inversión inicial</h4>
+    <label>Precio de compra</label>
+    <input type="number" id="precioCompra" placeholder="Ej: 75000€">
 
-    <label>Coste de reforma (€):</label>
-    <input type="number" id="reforma" placeholder="Ej: 20000">
+    <label>Coste de reforma</label>
+    <input type="number" id="costeReforma" placeholder="Ej: 2000€">
 
-    <label>Ingresos mensuales por alquiler (€):</label>
-    <input type="number" id="ingresos" placeholder="Ej: 800">
+    <label>Coste de mobiliario y equipamiento</label>
+    <input type="number" id="costeMobiliarioEquipamiento" placeholder="Ej: 4000€">
 
-    <label>Gastos mensuales (€):</label>
-    <input type="number" id="gastos" placeholder="Ej: 150">
+    <br><br>
+    <hr>
+    <h4>Gastos recurrentes</h4>
+    <label>IBI</label>
+    <input type="number" id="gastoIBI" placeholder="Ej: 350€ anuales">
 
-    <label>Gastos anuales (IBI, seguro, etc.) (€):</label>
-    <input type="number" id="anuales" placeholder="Ej: 1200">
+    <label>Comunidad</label>
+    <input type="number" id="gastosComunidad" placeholder="Ej: 50€ mensuales">
+   
+    <br><br>
+    <hr>
+    <h4>Compra e inversión inicial</h4>
+    <label>% de financiación sobre valor de compra</label>
+    <input type="number" id="porcentajeHipoteca" placeholder="Ej: 80%">
+
+    <label>Años de hipoteca</label>
+    <input type="number" id="anualidadesHipoteca" placeholder="Ej: 30">
+
+    <label>Tipo de interés</label>
+    <input type="number" id="tipoHipoteca" placeholder="Ej: 2.2%">
+
+    <br><br>
+    <hr>
+    <h4>Alquiler</h4>
+    <label>Ingresos mensuales por alquiler </label>
+    <input type="number" id="ingresosAlquiler" placeholder="Ej: 800€">
+
 
     <button onclick="calcular()">Calcular rentabilidad</button>
 
@@ -42,7 +65,7 @@
     function calcular() {
       const compra = parseFloat(document.getElementById("compra").value) || 0;
       const reforma = parseFloat(document.getElementById("reforma").value) || 0;
-      const ingresos = parseFloat(document.getElementById("ingresos").value) || 0;
+      const ingresos = parseFloat(document.getElementById("ingresoAlquiler").value) || 0;
       const gastos = parseFloat(document.getElementById("gastos").value) || 0;
       const anuales = parseFloat(document.getElementById("anuales").value) || 0;
 
@@ -62,4 +85,38 @@
   </script>
 </body>
 </html>
+
+<!--
+AÑADIR 
+✓ reforma 
+✓ mobiliario 
+✓ IBI, indicar en el placeholder que es anual
+✓ comunidad, el importe será mensual, indicar en el placeholder
+OPCIONAL Añadir input seguro de vida, indicar en el placeholder que es anual
+
+AÑADIR HIPOTECA
+✓ % financiación
+✓ años de hipoteca
+✓ % tipo de interés
+
+CALCULAR
+- ITP 10%
+- notaría, registro, gestoría... 2%
+- coste fijo tasación 300€ + IVA = 363€ 
+- seguro de impago = mensualidad/2
+- seguro de hogar = 300€
+- añadir un escrito explicando los supuestos y costes hardcodeados
+-->
+
+<!-- 
+RESULTADOS
+- rentabilidad bruta
+- rentabilidad neta
+- cuota hipotecaria
+- cash-flow mensual
+- % hipoteca/alquiler
+- cash on cash
+- ROCE
+-->
+
 
