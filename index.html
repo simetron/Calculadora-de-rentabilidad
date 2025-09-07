@@ -29,7 +29,7 @@
     <input type="number" id="costeMobiliarioEquipamiento" placeholder="Ej: 4000€">
 
     <label>Servicio agencia inmobiliaria</label>
-    <input type="number" id="costeInmobiliaria" placeholder="Ej: 3630€">
+    <input type="number" id="costeInmobiliaria" placeholder="Ej: 3000€, indicar sin IVA">
 
     <br><br>
     <hr>
@@ -64,6 +64,17 @@
   </div>
 
   <script>
+    // Función para calcular la cuota mensual de hipoteca
+    function calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca) {
+        // Capital financiado
+        const capital = precioCompra * (porcentajeHipoteca / 100);
+        // Interés mensual (ej: 2.5% anual → 0.025/12)
+        const interesMensual = (tipoHipoteca / 100) / 12;
+        // Número de cuotas totales (años * 12)
+        const numeroCuotas = anualidadesHipoteca * 12;
+        // Fórmula de amortización francesa
+        return capital * (interesMensual * Math.pow(1 + interesMensual, numeroCuotas)) / (Math.pow(1 + interesMensual, numeroCuotas) - 1);
+      }
     function calcular() {
       const precioCompra = parseFloat(document.getElementById("precioCompra").value) || 0;
       const costeReforma = parseFloat(document.getElementById("costeReforma").value) || 0;
@@ -74,25 +85,37 @@
       const porcentajeHipoteca = parseFloat(document.getElementById("porcentajeHipoteca").value) || 0;
       const anualidadesHipoteca = parseFloat(document.getElementById("anualidadesHipoteca").value) || 0;
       const tipoHipoteca = parseFloat(document.getElementById("tipoHipoteca").value) || 0;
+      const ingresosAlquiler = parseFloat(document.getElementById("ingresosAlquiler").value) || 0;
 
-      // continuar aquí
+      // Configuración de gastos
+      const tasacion = 300 * 1.21;
+      const seguroImpago = ingresosAlquiler * 0.5;
+      const seguroHogar = 300;
 
+      // Cuota hipotecaria
+      const cuotaHipoteca= calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca);
 
+      // Se suma un ITP 10% al precio de compra y el IVA al gasto de la inmobiliaria
+      const inversionTotal = precioCompra * 1.1 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
+      // Se asume un 2% de gastos de notaría, registro y gestoría que se suma al ITP resultando en un valor del 0.12% del precio de compra
+      const capitalAportado = precioCompra * 0.12 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
 
-      const ingresos = parseFloat(document.getElementById("ingresoAlquiler").value) || 0;
+      const ingresosBrutosAnuales = ingresosAlquiler * 12;
+      const gastosAnuales = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar + (cuotaHipoteca * 12);
+      const ingresosNetosAnuales = ingresosBrutosAnuales - gastosAnuales;
 
-
-      const inversionTotal = precioCompra + costeReforma + costeMobiliarioEquipamiento;
-      const ingresosNetosAnuales = (ingresos - gastos) * 12 - anuales;
-      const rentabilidadBruta = (ingresos * 12 / inversionTotal) * 100;
+      const rentabilidadBruta = (ingresosBrutosAnuales / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
-
+      const cashFlowMensual = ingresosAlquiler - cuotaHipoteca - (gastosAnuales / 12)
+    
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
-        <b>Inversión total:</b> €${inversionTotal.toLocaleString()} <br>
-        <b>Ingresos netos anuales:</b> €${ingresosNetosAnuales.toLocaleString()} <br>
+        <b>Inversión total:</b> ${inversionTotal.toFixed(2)}€ <br>
+        <b>Ingresos netos anuales:</b> ${ingresosNetosAnuales.toFixed(2)}€ <br>
         <b>Rentabilidad bruta:</b> ${rentabilidadBruta.toFixed(2)}% <br>
-        <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}%
+        <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}% <br>
+        <b>Cuota hipotecaria:</b> ${cuotaHipoteca.toFixed(2)}€ <br>
+        <b>Cash-flow mensual:</b> ${cashFlowMensual.toFixed(2)}€
       `;
     }
   </script>
@@ -114,17 +137,17 @@ AÑADIR HIPOTECA
 ✓ % tipo de interés
 
 CALCULAR
-- ITP 10%
-- notaría, registro, gestoría... 2%
-- coste fijo tasación 300€ + IVA = 363€ 
-- seguro de impago = mensualidad/2
-- seguro de hogar = 300€
+✓ ITP 10%
+✓ notaría, registro, gestoría... 2%
+✓ coste fijo tasación 300€ + IVA = 363€ 
+✓ seguro de impago = mensualidad/2
+✓ seguro de hogar = 300€
 - añadir un escrito explicando los supuestos y costes hardcodeados -->
 
 <!-- RESULTADOS
-- rentabilidad bruta
+✓ rentabilidad bruta
 - rentabilidad neta
-- cuota hipotecaria
+✓ cuota hipotecaria
 - cash-flow mensual
 - % hipoteca/alquiler
 - cash on cash
