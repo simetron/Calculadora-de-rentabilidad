@@ -89,8 +89,8 @@
 
       // Configuración de gastos
       const tasacion = 300 * 1.21;
-      const seguroImpago = ingresosAlquiler * 0.5;
-      const seguroHogar = 300;
+      const seguroImpago = ingresosAlquiler * 0.5; // anual
+      const seguroHogar = 300; // anual
 
       // Cuota hipotecaria
       const cuotaHipoteca= calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca);
@@ -106,7 +106,7 @@
 
       const rentabilidadBruta = (ingresosBrutosAnuales / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
-      const cashFlowMensual = ingresosAlquiler - cuotaHipoteca - (gastosAnuales / 12)
+      const cashFlowMensual = ingresosAlquiler - (gastosAnuales / 12)
     
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
@@ -139,7 +139,7 @@ AÑADIR HIPOTECA
 CALCULAR
 ✓ ITP 10%
 ✓ notaría, registro, gestoría... 2%
-✓ coste fijo tasación 300€ + IVA = 363€ 
+✓ coste fijo tasación 300€ + IVA
 ✓ seguro de impago = mensualidad/2
 ✓ seguro de hogar = 300€
 - añadir un escrito explicando los supuestos y costes hardcodeados -->
