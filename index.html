@@ -93,7 +93,8 @@
       const seguroHogar = 300; // anual
 
       // Cuota hipotecaria
-      const cuotaHipoteca= calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca);
+      const cuotaHipoteca = calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca);
+      const interesAnual = ((cuotaHipoteca * anualidadesHipoteca * 12) - (precioCompra * (porcentajeHipoteca / 100))) / anualidadesHipoteca;
 
       // Se suma un ITP 10% al precio de compra y el IVA al gasto de la inmobiliaria
       const inversionTotal = precioCompra * 1.1 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
@@ -101,12 +102,12 @@
       const capitalAportado = precioCompra * 0.12 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
 
       const ingresosBrutosAnuales = ingresosAlquiler * 12;
-      const gastosAnuales = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar + (cuotaHipoteca * 12);
+      const gastosAnuales = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar + interesAnual; //(cuotaHipoteca * 12);
       const ingresosNetosAnuales = ingresosBrutosAnuales - gastosAnuales;
 
       const rentabilidadBruta = (ingresosBrutosAnuales / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
-      const cashFlowMensual = ingresosAlquiler - (gastosAnuales / 12)
+      const cashFlowMensual = ingresosAlquiler - (gastosAnuales / 12) - //falta meter cuotas de la hipoteca
     
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
