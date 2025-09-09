@@ -114,8 +114,8 @@
 
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
-        <b>Inversión total:</b> ${inversionTotal.toFixed(2)}€ <br>
-        <b>Capital inicial:</b> ${capitalAportado.toFixed(2)}€ <br><hr>
+        <b>Inversión total:</b> ${inversionTotal.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€ <br>
+        <b>Capital inicial:</b> ${capitalAportado.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€ <br><hr>
         <b>Rentabilidad bruta:</b> ${rentabilidadBruta.toFixed(2)}% <br>
         <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}% <br><hr>
         <b>Cuota hipotecaria:</b> ${cuotaHipoteca.toFixed(2)}€ <br>
