@@ -95,6 +95,7 @@
       // Cuota hipotecaria
       const cuotaHipoteca = calcularCuotaHipoteca(precioCompra, porcentajeHipoteca, tipoHipoteca, anualidadesHipoteca);
       const interesAnual = ((cuotaHipoteca * anualidadesHipoteca * 12) - (precioCompra * (porcentajeHipoteca / 100))) / anualidadesHipoteca;
+      const porcentajeHipotecaSobrealquiler = (cuotaHipoteca / ingresosAlquiler) * 100;
 
       // Se suma un ITP 10% al precio de compra y el IVA al gasto de la inmobiliaria
       const inversionTotal = precioCompra * 1.1 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
@@ -103,11 +104,12 @@
 
       const ingresosBrutosAnuales = ingresosAlquiler * 12;
       const gastosAnuales = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar + interesAnual; //(cuotaHipoteca * 12);
+      const gastosAnualesSinInteresesHipoteca = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar; //(cuotaHipoteca * 12);
       const ingresosNetosAnuales = ingresosBrutosAnuales - gastosAnuales;
 
       const rentabilidadBruta = (ingresosBrutosAnuales / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
-      const cashFlowMensual = ingresosAlquiler - (gastosAnuales / 12) - //falta meter cuotas de la hipoteca
+      const cashFlowMensual = ingresosAlquiler - (gastosAnualesSinInteresesHipoteca / 12) - cuotaHipoteca;
     
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
@@ -116,6 +118,7 @@
         <b>Rentabilidad bruta:</b> ${rentabilidadBruta.toFixed(2)}% <br>
         <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}% <br>
         <b>Cuota hipotecaria:</b> ${cuotaHipoteca.toFixed(2)}€ <br>
+        <b>Hipoteca/alquiler:</b> ${porcentajeHipotecaSobrealquiler.toFixed(2)}% <br>
         <b>Cash-flow mensual:</b> ${cashFlowMensual.toFixed(2)}€
       `;
     }
@@ -147,9 +150,10 @@ CALCULAR
 
 <!-- RESULTADOS
 ✓ rentabilidad bruta
-¿? rentabilidad neta
+✓ rentabilidad neta
 ✓ cuota hipotecaria
-¿? cash-flow mensual
-- % hipoteca/alquiler
+✓ cash-flow mensual
+✓ % hipoteca/alquiler
+- capital inicial
 - cash on cash
 - ROCE -->
