@@ -100,7 +100,7 @@
       // Se suma un ITP 10% al precio de compra y el IVA al gasto de la inmobiliaria
       const inversionTotal = precioCompra * 1.1 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
       // Se asume un 2% de gastos de notaría, registro y gestoría que se suma al ITP resultando en un valor del 0.12% del precio de compra
-      const capitalAportado = precioCompra * 0.12 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
+      const capitalAportado = (((100 - porcentajeHipoteca) * precioCompra) / 100) + precioCompra * 0.12 + costeReforma + costeMobiliarioEquipamiento + costeInmobiliaria * 1.21 + tasacion;
 
       const ingresosBrutosAnuales = ingresosAlquiler * 12;
       const gastosAnuales = gastosIBI + (gastosComunidad * 12) + seguroImpago + seguroHogar + interesAnual; //(cuotaHipoteca * 12);
@@ -110,16 +110,18 @@
       const rentabilidadBruta = (ingresosBrutosAnuales / inversionTotal) * 100;
       const rentabilidadNeta = (ingresosNetosAnuales / inversionTotal) * 100;
       const cashFlowMensual = ingresosAlquiler - (gastosAnualesSinInteresesHipoteca / 12) - cuotaHipoteca;
-    
+      const cashOnCash = ((cashFlowMensual * 12) / capitalAportado) * 100;
+
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").innerHTML = `
         <b>Inversión total:</b> ${inversionTotal.toFixed(2)}€ <br>
-        <b>Ingresos netos anuales:</b> ${ingresosNetosAnuales.toFixed(2)}€ <br>
+        <b>Capital inicial:</b> ${capitalAportado.toFixed(2)}€ <br><hr>
         <b>Rentabilidad bruta:</b> ${rentabilidadBruta.toFixed(2)}% <br>
-        <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}% <br>
+        <b>Rentabilidad neta:</b> ${rentabilidadNeta.toFixed(2)}% <br><hr>
         <b>Cuota hipotecaria:</b> ${cuotaHipoteca.toFixed(2)}€ <br>
-        <b>Hipoteca/alquiler:</b> ${porcentajeHipotecaSobrealquiler.toFixed(2)}% <br>
-        <b>Cash-flow mensual:</b> ${cashFlowMensual.toFixed(2)}€
+        <b>Hipoteca/alquiler:</b> ${porcentajeHipotecaSobrealquiler.toFixed(2)}% <br><hr>
+        <b>Cash-flow mensual:</b> ${cashFlowMensual.toFixed(2)}€ <br>
+        <b>Cash on cash:</b> ${cashOnCash.toFixed(2)}%
       `;
     }
   </script>
@@ -154,6 +156,6 @@ CALCULAR
 ✓ cuota hipotecaria
 ✓ cash-flow mensual
 ✓ % hipoteca/alquiler
-- capital inicial
-- cash on cash
-- ROCE -->
+✓ capital inicial
+✓- cash on cash
+-->
